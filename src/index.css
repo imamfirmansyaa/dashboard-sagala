@@ -71,3 +71,11 @@
 .form-group label {
   margin-bottom: 0.2rem;
 }
+
+.error {
+  background-color: white;
+  color: red;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+}

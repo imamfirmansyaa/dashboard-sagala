@@ -6,7 +6,6 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Modal } from './components/Modal';
 
-
 function App() {
 
   const data = [
@@ -136,11 +135,15 @@ function App() {
 
   const [records, setRecords] = useState(data);
 
-  const [rows, setRows] = useState(data);
+  // const [rows, setRows] = useState(data);
+
+  // const handleSubmit = (newRow) => {
+  //   setRows([...rows, newRow]);
+  // }
 
   const handleSubmit = (newRow) => {
-    setRows([...rows, newRow]);
-  }
+    setRecords((prevRecords) => [...prevRecords, newRow]);
+  }
 
   const handleDelete = (deletingData) => {
     console.log('item ==>', records)
@@ -161,9 +164,7 @@ function App() {
         >  
           <DeleteIcon />
         </IconButton>
-        
       ),
-      
     }
   ]
 
@@ -197,8 +198,8 @@ function App() {
           data={records}
           selectableRows
           fixedHeader
-          pagination
-        ></DataTable>
+          pagination>
+        </DataTable>
       </div>
 
     </div>

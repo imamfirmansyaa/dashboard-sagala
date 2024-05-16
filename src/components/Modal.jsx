@@ -68,7 +68,7 @@ export const Modal = ({closeModal, onSubmit}) => {
             <label htmlFor="address">Alamat</label>
             <input name="address" value={formState.address} onChange={handleChange}/>
           </div>
-          {errors && <div>{`Silahkan isi kolom yang kosong`}</div>}
+          {errors && <div className="text-left mb-4 error">{`Silahkan isi kolom yang kosong`}</div>}
           <button type="submit" className="btn" onClick={handleSubmit}>Simpan</button>
 
         </form>
