@@ -17,8 +17,29 @@ export const Modal = ({closeModal, onSubmit}) => {
     })
   }
 
+  const [errors, setErrors] = useState("")
+
+  const validateForm = () => {
+    if (formState.name && formState.city && formState.date && formState.address) {
+      setErrors("")
+      return true;
+    }else{
+      let errorFields = [];
+      for(const [key, value] of Object.entries(formState)){
+        if(!value){
+          errorFields.push(key)
+        }
+      }
+      setErrors(errorFields.join(', '))
+      return false;
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if(!validateForm()) return;
+
     console.log(formState);
     onSubmit(formState)
     closeModal();
@@ -47,7 +68,7 @@ export const Modal = ({closeModal, onSubmit}) => {
             <label htmlFor="address">Alamat</label>
             <input name="address" value={formState.address} onChange={handleChange}/>
           </div>
-
+          {errors && <div>{`Silahkan isi kolom yang kosong`}</div>}
           <button type="submit" className="btn" onClick={handleSubmit}>Simpan</button>
 
         </form>
