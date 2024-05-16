@@ -2,47 +2,39 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import DataTable from 'react-data-table-component';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Modal } from './components/Modal';
+
 
 function App() {
 
-  const columns = [
-    {name: 'Name', selector: row => row.name, sortable: true},
-    {name: 'Tempat Lahir', selector: row => row.city, sortable: true},
-    {name: 'Tanggal Lahir', selector: row => row.date, sortable: true},
-    {name: 'Alamat', selector: row => row.address, sortable: true}
-  ]
-
   const data = [
     {
-      "id": "1",
       "name": "Shafira Sanchez",
       "city": "Cambridge",
       "date": "Jun 10, 2024",
       "address": "673-1254 Curabitur Street"
     },
     {
-      "id": "2",
       "name": "Lucian Zamora",
       "city": "Orangeville",
       "date": "Feb 12, 2025",
       "address": "Ap #281-142 Sapien, Rd."
     },
     {
-      "id": "3",
       "name": "Mira Medina",
       "city": "Cork",
       "date": "Aug 26, 2024",
       "address": "300-9145 Blandit Avenue"
     },
     {
-      "id": "4",
       "name": "Mollie Fitzgerald",
       "city": "Busan",
       "date": "Feb 4, 2024",
       "address": "493-5259 In St."
     },
     {
-      "id": "5",
       "name": "Amber Jacobs",
       "date": "May 9, 2024",
       "city": "San Cristóbal de la Laguna",
@@ -140,7 +132,42 @@ function App() {
     }
   ]
 
+  const [modalOpen, setModalOpen] = useState(false)
+
   const [records, setRecords] = useState(data);
+
+  const [rows, setRows] = useState(data);
+
+  const handleSubmit = (newRow) => {
+    setRows([...rows, newRow]);
+  }
+
+  const handleDelete = (deletingData) => {
+    console.log('item ==>', records)
+    const newData = records.filter((data) => data !== deletingData)
+    setRecords(newData);
+  }
+
+  const columns = [
+    {name: 'Name', selector: row => row.name, sortable: true},
+    {name: 'Tempat Lahir', selector: row => row.city, sortable: true},
+    {name: 'Tanggal Lahir', selector: row => row.date, sortable: true},
+    {name: 'Alamat', selector: row => row.address, sortable: true},
+    {name: 'Action', selector: row => row.action, sortable: true, cell: row => (
+        <IconButton
+          aria-label="delete"
+          color="secondary"
+          onClick={() => handleDelete(row)}
+        >  
+          <DeleteIcon />
+        </IconButton>
+        
+      ),
+      
+    }
+  ]
+
+
 
   function handleFilter(event){
       const newData = data.filter(row => {
@@ -153,8 +180,18 @@ function App() {
     <div className='w-full min-h-screen bg-white flex flex-row'>
       <Sidebar/>
 
-      <div className='container mt-7'>
-        <div className='text-end'><input type='text' onChange={handleFilter}/></div>
+      <div className='container mx-auto px-4 py-4'>
+        <div className='text-end'>
+          <button className='btn mr-4' onClick={() => setModalOpen(true)}>Tambah</button>
+          {modalOpen && (
+            <Modal closeModal={() => {
+                setModalOpen(false)
+              }}
+              onSubmit={handleSubmit}
+            />
+          )}
+          <input type='text' placeholder='Cari' onChange={handleFilter}/>
+        </div>
         <DataTable
           columns={columns}
           data={records}
