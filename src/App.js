@@ -159,7 +159,7 @@ function App() {
     {name: 'Action', selector: row => row.action, sortable: true, cell: row => (
         <IconButton
           aria-label="delete"
-          color="secondary"
+          color="error"
           onClick={() => handleDelete(row)}
         >  
           <DeleteIcon />
